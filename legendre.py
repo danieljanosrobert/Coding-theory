@@ -9,6 +9,7 @@ a % p = b == (a / p) = (b / p)
 from random import randrange
 
 from sympy import legendre_symbol
+from prime_generator import primes
 
 
 def is_prime(n):
@@ -69,15 +70,6 @@ def legendre(a, p):
             return legendre(p, a)
         else:
             return -1 * legendre(p, a)
-
-
-#https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n
-def primes(n):
-    sieve = [True] * n
-    for i in range(3, int(n ** 0.5) + 1, 2):
-        if sieve[i]:
-            sieve[i * i::2 * i] = [False] * ((n - i * i - 1) // (2 * i) + 1)
-    return [2] + [i for i in range(3, n, 2) if sieve[i]]
 
 
 if __name__ == "__main__":

@@ -1,22 +1,11 @@
 from random import randrange
 
 from jacobi import jacobi
+from modular_pow import mod_pow
+from prime_generator import primes
 
 
-def modulo(base, exponent, mod):
-    x = 1
-    y = base
-    while exponent > 0:
-        if exponent % 2 == 1:
-            x = (x * y) % mod
-
-        y = (y * y) % mod
-        exponent = exponent // 2
-
-    return x % mod
-
-
-def solovoy_strassen(p, k = 5):
+def solovoy_strassen(p, k=100):
     if p < 2:
         return False
     if p % 2 == 0:
@@ -26,21 +15,12 @@ def solovoy_strassen(p, k = 5):
 
         a = randrange(p - 1) + 1
         jacobian = (p + jacobi(a, p)) % p
-        mod = modulo(a, (p - 1) / 2, p)
+        mod = mod_pow(a, (p - 1) / 2, p)
 
         if jacobian == 0 or mod != jacobian:
             return False
 
     return True
-
-
-#https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n
-def primes(n):
-    sieve = [True] * n
-    for i in range(3, int(n ** 0.5) + 1, 2):
-        if sieve[i]:
-            sieve[i * i::2 * i] = [False] * ((n - i * i - 1) // (2 * i) + 1)
-    return [2] + [i for i in range(3, n, 2) if sieve[i]]
 
 
 if __name__ == "__main__":
